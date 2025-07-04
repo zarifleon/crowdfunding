@@ -1,57 +1,52 @@
-// En una aplicación Vue CLI, esto estaría en src/router/index.js o similar
-// import { createRouter, createWebHistory } from 'vue-router';
-// const { createRouter, createWebHistory } = VueRouter; // Si se usa Vue Router globalmente via CDN
+// import { createRouter, createWebHistory } from 'vue-router'; // Actual import for Vue Router 4
 
-// Importar los componentes de las vistas/páginas
-import PaginaInicio from './vistas/PaginaInicio.vue';
-import PaginaRegistro from './vistas/PaginaRegistro.vue';
-import PaginaLogin from './vistas/PaginaLogin.vue';
-import PaginaListarCasos from './vistas/PaginaListarCasos.vue';
-import PaginaDetalleCaso from './vistas/PaginaDetalleCaso.vue';
-import PaginaCrearCaso from './vistas/PaginaCrearCaso.vue';
-// Placeholder para una página no encontrada
-const PaginaNoEncontrada = { template: '<div><h2>404 - Página No Encontrada</h2><p>Lo sentimos, la página que buscas no existe.</p><router-link to="/">Ir al Inicio</router-link></div>' };
+// Import page components from the 'views' directory with their new English names
+import HomePage from './views/HomePage.vue';
+import RegisterPage from './views/RegisterPage.vue';
+import LoginPage from './views/LoginPage.vue';
+import CaseListPage from './views/CaseListPage.vue';
+import CaseDetailPage from './views/CaseDetailPage.vue';
+import CreateCasePage from './views/CreateCasePage.vue';
 
+const NotFoundPage = { template: '<div><h2>404 - Page Not Found</h2><p>Sorry, the page you are looking for does not exist.</p><router-link to="/">Go to Home</router-link></div>' }; // Anglicized
 
 const routes = [
   {
     path: '/',
-    name: 'Inicio',
-    component: PaginaInicio,
+    name: 'Home', // Anglicized
+    component: HomePage,
   },
   {
-    path: '/registrar',
-    name: 'Registro',
-    component: PaginaRegistro,
+    path: '/register', // Anglicized path
+    name: 'Register', // Anglicized
+    component: RegisterPage,
   },
   {
     path: '/login',
     name: 'Login',
-    component: PaginaLogin,
+    component: LoginPage,
   },
   {
-    path: '/casos',
-    name: 'ListarCasos',
-    component: PaginaListarCasos,
+    path: '/cases', // Anglicized path
+    name: 'CaseList', // Anglicized
+    component: CaseListPage,
   },
   {
-    // :casoId es un parámetro dinámico que se pasará como prop al componente
-    path: '/casos/:casoId',
-    name: 'DetalleCaso',
-    component: PaginaDetalleCaso,
-    props: true, // Permite que los parámetros de la ruta se pasen como props al componente
+    path: '/cases/:caseId', // Parameter name is fine as is
+    name: 'CaseDetail', // Anglicized (matches CaseCard link)
+    component: CaseDetailPage,
+    props: true,
   },
   {
-    path: '/crear-caso',
-    name: 'CrearCaso',
-    component: PaginaCrearCaso,
-    // meta: { requiereAutenticacion: true } // Ejemplo de meta campo para guardias de ruta
+    path: '/create-case', // Anglicized path
+    name: 'CreateCase', // Anglicized
+    component: CreateCasePage,
+    // meta: { requiresAuth: true } // Example for route guards
   },
-  // Ruta Catch-all para 404
   {
-    path: '/:pathMatch(.*)*', // Vue Router 4.x syntax for catch-all
-    name: 'NoEncontrada',
-    component: PaginaNoEncontrada,
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound', // Anglicized
+    component: NotFoundPage,
   }
 ];
 

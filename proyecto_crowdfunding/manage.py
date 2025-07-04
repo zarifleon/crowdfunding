@@ -7,8 +7,7 @@ import sys
 def main():
     """Run administrative tasks."""
     # Ensure a default settings module is provided if not already set
-    # For a manual setup, we'll name the project config directory 'config_django'
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config_django.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_config.settings') # Updated path
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

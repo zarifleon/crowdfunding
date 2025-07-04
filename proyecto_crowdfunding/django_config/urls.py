@@ -1,5 +1,5 @@
 """
-URL configuration for config_django project.
+URL configuration for django_config project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -22,9 +22,11 @@ from django.conf.urls.static import static # Para servir archivos media en desar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/crowdfunding/', include('nucleo_crowdfunding.urls')), # Incluyendo las URLs de la app nucleo_crowdfunding
+    path('api/v1/crowdfunding/', include('crowdfunding_core.urls')), # Updated app name
 ]
 
 # Servir archivos media durante el desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # It's also common to serve staticfiles this way for local dev if not using whitenoise or similar for prod-like static serving
+    # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Optional for dev only

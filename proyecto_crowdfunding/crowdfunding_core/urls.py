@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'nucleo_crowdfunding' # Para namespacing, ej: nucleo_crowdfunding:registro
+app_name = 'crowdfunding_core' # Renamed app_name
 
 urlpatterns = [
     # Autenticación

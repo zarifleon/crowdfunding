@@ -1,187 +1,167 @@
-# Proyecto Crowdfunding Morelia (Backend Django + Frontend Vue.js)
+# Morelia Crowdfunding Platform (Backend Django + Frontend Vue.js)
 
-Plataforma de crowdfunding para promover el desarrollo económico en el municipio de Morelia, permitiendo el financiamiento de proyectos municipales, PYMES, MIPYMES, personas físicas y la ciudadanía en general.
+A crowdfunding platform to promote economic development in the municipality of Morelia, enabling funding for municipal projects, SMEs, MSMEs, individuals, and the general citizenry.
 
-## Descripción General
+## Overview
 
-El sistema permite a los usuarios (identificados con un "ID Morelia") registrarse, presentar "casos" (proyectos o necesidades), y buscar financiamiento. Otros usuarios pueden ver estos casos, interactuar con ellos y, eventualmente, realizar aportaciones (el mecanismo de aportación directa se maneja con confirmación manual y evidencia). El municipio también puede publicar programas y asignar fondos.
+The system allows users (identified with an "ID Morelia") to register, submit "cases" (projects or needs), and seek funding. Other users can view these cases, interact with them, and make contributions (direct contributions are handled with manual confirmation and evidence). The municipality can also publish programs and allocate funds.
 
-**Tecnologías Principales:**
-*   **Backend:** Python con Django Framework.
-*   **Frontend:** Vue.js (estructura básica creada).
-*   **Base de Datos:** PostgreSQL.
+**Core Technologies:**
+*   **Backend:** Python with Django Framework.
+*   **Frontend:** Vue.js (basic structure created).
+*   **Database:** PostgreSQL.
 
-## Estructura del Proyecto
+## Project Structure
+
+The root directory for all project code related to this specific application is `proyecto_crowdfunding/`.
 
 ```
-proyecto_crowdfunding/      # Directorio raíz del proyecto Django
-├── config_django/          # Configuración del proyecto Django (settings.py, urls.py, etc.)
-├── nucleo_crowdfunding/    # Aplicación Django principal para la lógica del crowdfunding
+proyecto_crowdfunding/      # Main application directory
+├── django_config/          # Django project configuration (settings.py, urls.py, etc.)
+├── crowdfunding_core/      # Main Django app for crowdfunding logic
 │   ├── migrations/
-│   ├── models.py           # Modelos de la base de datos
-│   ├── views.py            # Lógica de las vistas/API endpoints
-│   ├── urls.py             # URLs específicas de la app
-│   ├── tests.py            # Pruebas de la app
+│   ├── models.py           # Database models (Spanish field names maintained)
+│   ├── views.py            # View logic / API endpoints
+│   ├── urls.py             # App-specific URLs
+│   ├── tests.py            # App tests
 │   └── ...
-├── frontend/               # Directorio para la aplicación Vue.js
-│   ├── publico/
-│   │   └── index.html      # HTML principal para la SPA de Vue
+├── frontend/               # Directory for the Vue.js application
+│   ├── public/             # Public assets for Vue (e.g., index.html)
+│   │   └── index.html      # Main HTML for the Vue SPA
 │   ├── src/
-│   │   ├── componentes/    # Componentes Vue reutilizables
-│   │   ├── vistas/         # Componentes Vue para las páginas/rutas
-│   │   ├── App.vue         # Componente raíz de Vue
-│   │   ├── main.js         # Punto de entrada de la app Vue (simulado)
-│   │   └── router.js       # Definiciones de rutas de Vue (simulado)
+│   │   ├── components/     # Reusable Vue components (e.g., CaseCard.vue)
+│   │   ├── views/          # Vue components for pages/routes (e.g., HomePage.vue)
+│   │   ├── App.vue         # Root Vue component
+│   │   ├── main.js         # Vue app entry point (simulated)
+│   │   └── router.js       # Vue route definitions (simulated)
 │   └── ...
-├── mediafiles/             # (Se creará por Django) Directorio para archivos subidos por usuarios (MEDIA_ROOT)
-└── manage.py               # Utilidad de línea de comandos de Django
+├── mediafiles/             # (Will be created by Django) Directory for user-uploaded files (MEDIA_ROOT)
+└── manage.py               # Django command-line utility
 ```
 
-## Configuración del Backend (Django)
+## Backend Setup (Django)
 
-### Prerrequisitos
+### Prerequisites
 *   Python 3.8+
-*   pip (manejador de paquetes de Python)
-*   PostgreSQL (servidor de base de datos)
+*   pip (Python package manager)
+*   PostgreSQL (database server)
 
-### Pasos de Configuración (Desarrollo Local)
+### Local Development Setup Steps
 
-1.  **Clonar el Repositorio (si aplica):**
+1.  **Clone Repository (if applicable):**
     ```bash
-    # git clone <url-del-repositorio>
-    # cd <directorio-del-proyecto>
+    # git clone <repository-url>
+    # cd <project-root-directory>
     ```
 
-2.  **Crear y Activar un Entorno Virtual:**
-    Asegúrate de estar en el directorio raíz del proyecto (el que contendrá `proyecto_crowdfunding` y este README).
+2.  **Create and Activate a Virtual Environment:**
+    (Assuming you are in the directory that *contains* `proyecto_crowdfunding`)
     ```bash
     python -m venv venv
-    # En Windows:
+    # Windows:
     # venv\Scripts\activate
-    # En macOS/Linux:
+    # macOS/Linux:
     # source venv/bin/activate
     ```
 
-3.  **Instalar Dependencias de Python:**
-    Navega al directorio `proyecto_crowdfunding` (donde está `manage.py`).
+3.  **Install Python Dependencies:**
+    Navigate into the `proyecto_crowdfunding` directory (where `manage.py` is located).
     ```bash
     pip install django psycopg2-binary Pillow
     ```
-    *(En un proyecto compartido, estas estarían en un archivo `requirements.txt`. Puedes generar uno con `pip freeze > requirements.txt`)*
+    *(In a shared project, these would be in a `requirements.txt` file. You can generate one using `pip freeze > requirements.txt`)*
 
-4.  **Configurar la Base de Datos PostgreSQL:**
-    *   Asegúrate que PostgreSQL está instalado y corriendo.
-    *   Crea una base de datos para el proyecto, ej: `morelia_crowdfunding_db`.
-    *   Crea un usuario de base de datos con permisos para acceder a esta base de datos.
-    *   Actualiza la configuración `DATABASES` en `proyecto_crowdfunding/config_django/settings.py` con tus credenciales de PostgreSQL:
+4.  **Configure PostgreSQL Database:**
+    *   Ensure PostgreSQL is installed and running.
+    *   Create a database for the project (e.g., `morelia_crowdfunding_db`).
+    *   Create a database user with permissions for this database.
+    *   Update the `DATABASES` setting in `proyecto_crowdfunding/django_config/settings.py` with your PostgreSQL credentials:
         ```python
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'tu_nombre_de_bd',    # Ej: morelia_crowdfunding_db
-                'USER': 'tu_usuario_de_bd',
-                'PASSWORD': 'tu_contraseña_de_bd',
-                'HOST': 'localhost',      # O la IP/host de tu servidor de BD
-                'PORT': '5432',           # Puerto por defecto de PostgreSQL
+                'NAME': 'your_db_name',    # e.g., morelia_crowdfunding_db
+                'USER': 'your_db_user',
+                'PASSWORD': 'your_db_password',
+                'HOST': 'localhost',      # Or your DB server host/IP
+                'PORT': '5432',           # Default PostgreSQL port
             }
         }
         ```
 
-5.  **Aplicar Migraciones de la Base de Datos:**
-    Desde el directorio `proyecto_crowdfunding` (donde está `manage.py`):
+5.  **Apply Database Migrations:**
+    From the `proyecto_crowdfunding` directory:
     ```bash
-    python manage.py makemigrations nucleo_crowdfunding
+    python manage.py makemigrations crowdfunding_core
     python manage.py migrate
     ```
 
-6.  **Crear un Superusuario (Opcional, para el Admin de Django):**
+6.  **Create a Superuser (Optional, for Django Admin):**
     ```bash
     python manage.py createsuperuser
     ```
 
-7.  **Ejecutar el Servidor de Desarrollo de Django:**
+7.  **Run the Django Development Server:**
     ```bash
     python manage.py runserver
     ```
-    El backend estará disponible usualmente en `http://127.0.0.1:8000/`.
-    Los endpoints de la API estarán bajo `http://127.0.0.1:8000/api/v1/crowdfunding/`.
+    The backend will typically be available at `http://127.0.0.1:8000/`.
+    API endpoints will be under `http://127.0.0.1:8000/api/v1/crowdfunding/`.
 
-## Configuración del Frontend (Vue.js) - Conceptual
+## Frontend Setup (Vue.js) - Conceptual
 
-La estructura básica de Vue.js ha sido creada en `proyecto_crowdfunding/frontend/`. Para un desarrollo completo:
+The basic Vue.js structure is in `proyecto_crowdfunding/frontend/`. For full development:
 
-1.  **Prerrequisitos:**
-    *   Node.js y npm (o yarn).
+1.  **Prerequisites:**
+    *   Node.js and npm (or yarn).
 
-2.  **Instalar Dependencias del Frontend:**
-    Navega al directorio `proyecto_crowdfunding/frontend/`. Si hubiera un `package.json`:
+2.  **Install Frontend Dependencies:**
+    Navigate to `proyecto_crowdfunding/frontend/`. If a `package.json` existed:
     ```bash
     # npm install
-    # o
+    # or
     # yarn install
     ```
-    *(Esto requeriría un archivo `package.json` con dependencias como `vue`, `vue-router`. Para este proyecto, los archivos Vue se han creado manualmente.)*
+    *(This project's Vue files were created manually. A `package.json` with dependencies like `vue` and `vue-router` would be needed for a typical Vue CLI setup.)*
 
-3.  **Ejecutar el Servidor de Desarrollo de Vue (si se usa Vue CLI):**
-    Si se estructura como un proyecto Vue CLI:
+3.  **Run Vue Development Server (if using Vue CLI):**
+    If structured as a Vue CLI project:
     ```bash
     # npm run serve
-    # o
+    # or
     # yarn serve
     ```
-    El frontend estaría disponible usualmente en `http://localhost:8080/` (o el puerto que configure Vue CLI).
-    Se necesitaría configurar un proxy en `vue.config.js` para redirigir las llamadas a API (ej. `/api/v1/`) al backend de Django que corre en el puerto 8000, para evitar problemas de CORS durante el desarrollo.
-    Alternativamente, abrir `proyecto_crowdfunding/frontend/publico/index.html` directamente en un navegador podría mostrar la estructura básica, pero sin el enrutamiento completo ni el servidor de desarrollo de Vue.
+    The frontend would typically be at `http://localhost:8080/`.
+    A proxy would need to be configured in `vue.config.js` to redirect API calls (e.g., to `/api/v1/`) to the Django backend (running on port 8000) to avoid CORS issues during development.
+    Alternatively, opening `proyecto_crowdfunding/frontend/public/index.html` directly in a browser might show the basic structure but without full routing or Vue's dev server capabilities.
 
-## API Endpoints Principales (Backend)
+## Main API Endpoints (Backend)
 
-Los endpoints están definidos en `proyecto_crowdfunding/nucleo_crowdfunding/urls.py` y la lógica en `views.py`.
+Defined in `proyecto_crowdfunding/crowdfunding_core/urls.py` and logic in `views.py`.
+User-facing URL segments like `usuarios` and `casos` remain in Spanish.
 
-*   `POST /api/v1/crowdfunding/usuarios/registrar/`
-    *   Registra un nuevo usuario.
-    *   **Request Body (JSON):** `{ "id_morelia": "...", "email": "...", "password": "...", "first_name": "...", "last_name": "...", "usuario_tipo_id": (opcional), "nivel_id": (opcional) }`
-    *   **Response (201 Created):** `{ "mensaje": "...", "usuario": { ... } }`
-    *   **Response (400 Bad Request):** `{ "error": "..." }`
-*   `POST /api/v1/crowdfunding/usuarios/login/`
-    *   Inicia sesión.
-    *   **Request Body (JSON):** `{ "id_morelia_o_email": "...", "password": "..." }`
-    *   **Response (200 OK):** `{ "mensaje": "...", "usuario": { ... } }` (Gestión de sesión/token no implementada)
-    *   **Response (400/401/403):** `{ "error": "..." }`
-*   `GET /api/v1/crowdfunding/casos/`
-    *   Lista todos los casos de crowdfunding.
-    *   **Response (200 OK):** `[ { ...datos_del_caso... }, ... ]`
-*   `POST /api/v1/crowdfunding/casos/crear/`
-    *   Crea un nuevo caso. Requiere autenticación (conceptual).
-    *   **Request Body (Multipart/form-data):** Campos de texto (`creador_id_morelia` (temporal), `exposicion_titulo`, etc.) y archivos opcionales (`imagen_promocional`, `video_promocional`).
-    *   **Response (201 Created):** `{ "mensaje": "...", "caso_id": ... }`
-*   `GET /api/v1/crowdfunding/casos/<int:caso_id>/`
-    *   Obtiene detalles de un caso específico.
-    *   **Response (200 OK):** `{ ...datos_completos_del_caso... }`
-    *   **Response (404 Not Found):** `{ "error": "Caso no encontrado." }`
-*   `PUT/PATCH /api/v1/crowdfunding/casos/<int:caso_id>/actualizar/`
-    *   Actualiza un caso existente. Requiere autenticación y permisos (conceptual).
-    *   **Request Body (JSON o Multipart/form-data):** Campos a actualizar.
-    *   **Response (200 OK):** `{ "mensaje": "...", "caso_id": ... }`
-*   `DELETE /api/v1/crowdfunding/casos/<int:caso_id>/eliminar/`
-    *   Elimina un caso. Requiere autenticación y permisos (conceptual).
-    *   **Response (200 OK or 204 No Content):** `{ "mensaje": "..." }`
+*   `POST /api/v1/crowdfunding/usuarios/registrar/` - Register a new user.
+*   `POST /api/v1/crowdfunding/usuarios/login/` - User login.
+*   `GET /api/v1/crowdfunding/casos/` - List all crowdfunding cases.
+*   `POST /api/v1/crowdfunding/casos/crear/` - Create a new case.
+*   `GET /api/v1/crowdfunding/casos/<int:caso_id>/` - Get details of a specific case.
+*   `PUT/PATCH /api/v1/crowdfunding/casos/<int:caso_id>/actualizar/` - Update an existing case.
+*   `DELETE /api/v1/crowdfunding/casos/<int:caso_id>/eliminar/` - Delete a case.
 
-## Pruebas
+*(Refer to the source code or more detailed API documentation for request/response formats.)*
 
-*   **Backend:** Desde el directorio `proyecto_crowdfunding/`, ejecutar:
+## Testing
+
+*   **Backend:** From the `proyecto_crowdfunding/` directory, run:
     ```bash
-    python manage.py test nucleo_crowdfunding
+    python manage.py test crowdfunding_core
     ```
-    (Requiere que la base de datos configurada en `settings.py` sea accesible, o Django usará una base de datos de prueba en memoria si es SQLite, o intentará crear una BD de prueba para PostgreSQL si el usuario tiene permisos).
-*   **Frontend:** (Conceptual) Las pruebas de componentes Vue se escribirían usando herramientas como Vue Test Utils con Jest o Vitest.
+    (Requires the database in `settings.py` to be accessible or for Django to be able to create a test database.)
+*   **Frontend:** (Conceptual) Vue component tests would be written using tools like Vue Test Utils with Jest or Vitest.
 
-## Despliegue
+## Deployment
 
-Consultar la documentación conceptual de despliegue para estrategias. Implica:
-*   Configurar un servidor WSGI (Gunicorn) para Django.
-*   Construir la aplicación Vue (`npm run build`) y servir sus archivos estáticos.
-*   Configurar un servidor de base de datos PostgreSQL de producción.
-*   Usar un servidor web como Nginx como reverse proxy, para servir archivos estáticos/media y gestionar HTTPS.
+Refer to conceptual deployment documentation. Involves setting up a WSGI server for Django, building and serving Vue static assets, a production PostgreSQL database, and a web server like Nginx.
 ---
 
-Este README provee una guía básica. Detalles adicionales se pueden encontrar en comentarios dentro del código.
+This README provides a basic guide. More details can be found in code comments.

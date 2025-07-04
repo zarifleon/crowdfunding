@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt # For simplicity in example
 from django.contrib.auth.hashers import make_password, check_password
 import json # For parsing JSON request bodies
 
-from .models import CrowdUsuario, CrowdCatalogoUsuarioTipo, CrowdUsuarioNivel # Import necessary models
+from .models import CrowdUsuario, CrowdCatalogoUsuarioTipo, CrowdUsuarioNivel, CrowdCaso, CrowdCategoria, CrowdCatalogoEstatus, SistemaMunicipalPrograma # Import necessary models
 
 # TODO: Consider creating Django Forms for validation and HTML rendering assistance.
 
@@ -106,8 +106,8 @@ def listar_casos_vista(request):
                 'porque': caso_obj.exposicion_porque,
                 'detalles_adicionales': caso_obj.exposicion_detalles_adicionales,
                 'texto_promocional': caso_obj.exposicion_promocional,
-                'video_promocional': caso_obj.video_promocional,
-                'imagen_promocional': caso_obj.imagen_promocional,
+                'video_promocional': caso_obj.video_promocional.url if caso_obj.video_promocional else None,
+                'imagen_promocional': caso_obj.imagen_promocional.url if caso_obj.imagen_promocional else None,
                 'categoria': caso_obj.categoria.nombre if caso_obj.categoria else None,
                 'cantidad_requerida': caso_obj.cantidad_requerida,
                 'cantidad_obtenida': caso_obj.cantidad_obtenida,
@@ -268,8 +268,8 @@ def detalle_caso_vista(request, caso_id):
                 'porque': caso_obj.exposicion_porque,
                 'detalles_adicionales': caso_obj.exposicion_detalles_adicionales,
                 'texto_promocional': caso_obj.exposicion_promocional,
-                'video_promocional': caso_obj.video_promocional,
-                'imagen_promocional': caso_obj.imagen_promocional,
+                'video_promocional': caso_obj.video_promocional.url if caso_obj.video_promocional else None,
+                'imagen_promocional': caso_obj.imagen_promocional.url if caso_obj.imagen_promocional else None,
                 'categoria': caso_obj.categoria.nombre if caso_obj.categoria else None,
                 'cantidad_requerida': caso_obj.cantidad_requerida,
                 'cantidad_obtenida': caso_obj.cantidad_obtenida,
@@ -318,7 +318,7 @@ def actualizar_caso_vista(request, caso_id):
             # pero el bloque anterior muestra dónde iría la lógica de permisos.
             # Se podría requerir 'creador_id_morelia' en el payload para una pseudo-verificación temporal si no hay auth.
 
-            data = json.loads(request.body)
+            data = json.loads(request.body) # Asume JSON para simplicidad, necesitaría manejar multipart si se actualizan archivos por esta vía
 
             # Actualizar campos. Si es PATCH, solo se actualizan los campos presentes.
             # Si es PUT, se podrían esperar todos los campos o manejar ausencias como errores o borrado (según la semántica deseada).

@@ -1,24 +1,23 @@
 <template>
   <div id="app-container">
-    <BarraNavegacion />
-    <main class="contenido-principal">
-      <router-view /> <!-- Aquí se renderizarán los componentes de las rutas -->
+    <NavigationBar /> <!-- Updated component name -->
+    <main class="main-content"> <!-- Renamed class -->
+      <router-view />
     </main>
-    <footer class="pie-pagina">
+    <footer class="page-footer"> <!-- Renamed class -->
       <p>&copy; 2024 Ayuntamiento de Morelia - Crowdfunding Morelia</p>
     </footer>
   </div>
 </template>
 
 <script>
-import BarraNavegacion from './componentes/BarraNavegacion.vue';
+import NavigationBar from './components/NavigationBar.vue'; // Updated import path and component name
 
 export default {
   name: 'App',
   components: {
-    BarraNavegacion
+    NavigationBar // Updated component name
   }
-  // Lógica global de App.vue si es necesaria (ej. gestión de estado de autenticación inicial)
 }
 </script>
 
